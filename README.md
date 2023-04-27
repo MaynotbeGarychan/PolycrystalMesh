@@ -7,7 +7,7 @@ Jiawei CHEN, Materials forming and processing lab, Institute of industrial scien
 ### Example
 1. Retangle region
 
-![Retangle region](https://github.com/MaynotbeGarychan/PolycrystalMesh/tree/dev/web/example_retangle_region.jpg)
+![Retangle region](https://github.com/MaynotbeGarychan/PolycrystalMesh/blob/dev/web/example_retangle_region.jpg?raw=true)
 
 ### How to use?
 1. Run the ./matlab_script/make_input.m with MTEX Toolbox to 
