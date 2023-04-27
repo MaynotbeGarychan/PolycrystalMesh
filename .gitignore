@@ -1,0 +1,5 @@
+*.cfile
+*.db
+*.msg
+*.idea
+__pycache__
