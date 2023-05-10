@@ -7,14 +7,14 @@ from src.pre_process.keyword_file import keyword_file
 
 
 # main function
-def ebsd_to_mesh_indexing(ebsd_set: ebsd, mesh_set: mesh):
+def ebsd_to_mesh_indexing(ebsd_set: ebsd, mesh_set: mesh, divide_region_xy: tuple):
     # ================================================================= #
     #           define the subregion                                    #
     # ================================================================= #
     print("INFO: Begin ebsd_to_mesh.")
     full_region = typical_retangle_region(np.amin(mesh_set.node_set.x_array), np.amin(mesh_set.node_set.y_array),
                 np.amax(mesh_set.node_set.x_array), np.amax(mesh_set.node_set.y_array))
-    num_regions_x, num_region_y = 11, 11
+    num_regions_x, num_region_y = divide_region_xy[0], divide_region_xy[1]
     num_region = num_regions_x * num_region_y
     sub_region_array = full_region.divide_into_sub_regions(num_regions_x,num_region_y)
     print(rf"INFO: Partition full region into {num_regions_x} * {num_region_y} sub region for speed-up.")

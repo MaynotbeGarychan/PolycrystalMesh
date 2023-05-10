@@ -2,4 +2,5 @@
 *.db
 *.msg
 *.idea
+*.m
 __pycache__
