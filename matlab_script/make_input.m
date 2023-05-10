@@ -1,6 +1,6 @@
 %% Please specify your directory
-ebsd_data_dir = '/home/chen/Desktop/PolycrystalMesh/example/retangle_region/ebsd.ang';
-output_file_dir = '/home/chen/Desktop/PolycrystalMesh/example/retangle_region/input.txt';
+ebsd_data_dir = '/home/chen/Desktop/kishimoto/Al-C.ang';
+output_file_dir = '/home/chen/Desktop/kishimoto/input.txt';
 
 %% Specify Crystal and Specimen Symmetries
 
@@ -44,8 +44,12 @@ plot(grains,ipf_color);
 set(fig_1, 'Units', 'Inches', 'Position', [0, 0, 8, 8]);
 hold on
 camroll(90)
-set(gca, 'YDir','reverse')
+% set(gca, 'YDir','reverse')
 hold off
+
+%%
+odf = calcDensity(ebsd('indexed').orientations);
+plotIPDF(odf, vector3d.X);
 
 %% grain size info
 % average_grainSize = mean(grains.grainSize, 'all');

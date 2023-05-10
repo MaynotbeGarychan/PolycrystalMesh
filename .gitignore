@@ -3,4 +3,5 @@
 *.msg
 *.idea
 *.m
+private
 __pycache__
