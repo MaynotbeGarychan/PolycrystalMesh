@@ -13,122 +13,23 @@ def write_line_with_vars_rjust(var_list, write_io, rjust_len:int):
         write_io.write(f"{var}".rjust(rjust_len))
     write_io.write("\n")
 
-def write_materials_models(write_io, model_id_list: list, hsv_num_list: list ,euler_angles_list: list, g0_list: list, gs_list: list, h0_list: list, hs_list: list):
+
+def write_any_keyword(write_io,keyword_header:str,name:str,param_form:list):
     """
-    Write information of a list of materials models into keyword file
-    :param write_io:            txt file io to output
-    :param model_id_list:       id list of material models
-    :param euler_angles_list:   list of euler angles, [[phi1,PHI,phi2],[phi1,PHI,phi2],[phi1,PHI,phi2],...]
-    :param g0_list:             list of g0
-    :param gs_list:             list of gs
-    :param h0_list:             list of h0
-    :param hs_list:             list of hs
+    Write keword like the LS-DYNA style
+    :param write_io: keyword io
+    :param keyword_header: keyword type, e.x. *PART
+    :param name: name of this set of keyword
+    :param param_form: a form of to store the keyword in sequences
     :return:
     """
-    for i in range(len(model_id_list)):
-        model_id = model_id_list[i]
-        euler_angles = euler_angles_list[i]
-        g0 = g0_list[i]
-        gs = gs_list[i]
-        h0 = h0_list[i]
-        hs = hs_list[i]
-        hsv_num = hsv_num_list[i]
-        write_io.write("*MAT_USER_DEFINED_MATERIAL_MODELS_TITLE\n")
-        write_io.write(f"umat43_{model_id}\n")
-        write_io.write("$#     mid        ro        mt       lmc       nhv    iortho     ibulk        ig\n")
-        write_line_with_vars_rjust([model_id, 0.027, 43, 24, hsv_num, 0, 3, 4], write_io, 10)
-        write_io.write(f"$#   ivect     ifail    itherm    ihyper      ieos      lmca    unused    unused\n")
-        write_line_with_vars_rjust([0, 0, 0, 1, 0, 0], write_io, 10)
-        write_io.write("$#      p1        p2        p3        p4        p5        p6        p7        p8\n")
-        write_line_with_vars_rjust([70000.0, 0.3, 58333.33, 26923.08, 0.001, g0, 0.02, h0], write_io, 10)
-        write_io.write("$#      p1        p2        p3        p4        p5        p6        p7        p8\n")
-        write_line_with_vars_rjust([gs, hs, 1.4, 0.1, 0.0, 0.0, 1.0, 0.0], write_io, 10)
-        write_io.write("$#      p1        p2        p3        p4        p5        p6        p7        p8\n")
-        write_line_with_vars_rjust([euler_angles[0], euler_angles[1], euler_angles[2], 0,0,0,0,0], write_io, 10)
-
-def write_parts(write_io, part_id_list: list, section_id_list: list, materials_model_id_list: list):
-    """
-    Write information of a list of parts into keyword file
-    :param write_io:                     txt file io to output
-    :param part_id_list:                 id list of parts
-    :param section_id_list:              id list of sections
-    :param materials_model_id_list:      id list of materials models
-    :return:
-    """
-    for i in range(len(part_id_list)):
-        part_id = part_id_list[i]
-        section_id = section_id_list[i]
-        model_id = materials_model_id_list[i]
-        write_io.write("*PART\n")
-        write_io.write("$#                                                                         title\n")
-        write_io.write(f"boxsolid_{part_id}\n")
-        write_io.write("$#     pid     secid       mid     eosid      hgid      grav    adpopt      tmid\n")
-        write_line_with_vars_rjust([part_id, section_id, model_id, 0, 0, 0, 0, 0], write_io, 10)
-
-
-def write_parts_with_materials_models(write_io,part_id_list: list, section_id_list: list, materials_model_id_list: list, hsv_num_list: list,
-                                      euler_angles_list: list, g0_list: list, gs_list: list, h0_list: list, hs_list: list):
-    """
-    Write the part information with materials models into keyword file
-    :param write_io:                    txt file io to output
-    :param part_id_list:                id list of parts
-    :param section_id_list:             id list of sections
-    :param materials_model_id_list:     id list of materials models
-    :param euler_angles_list:           list of euler angles, [[phi1,PHI,phi2],[phi1,PHI,phi2],[phi1,PHI,phi2],...]
-    :param g0_list:                     list of g0
-    :param gs_list:                     list of gs
-    :param h0_list:                     list of h0
-    :param hs_list:                     list of hs
-    :param hsv_num_list:                list of hsv num
-    :return:
-    """
-    for i in range(len(part_id_list)):
-        part_id = part_id_list[i]
-        section_id = section_id_list[i]
-        model_id = materials_model_id_list[i]
-        euler_angles = euler_angles_list[i]
-        g0 = g0_list[i]
-        gs = gs_list[i]
-        h0 = h0_list[i]
-        hs = hs_list[i]
-        hsv_num = hsv_num_list[i]
-        write_io.write("*PART\n")
-        write_io.write("$#                                                                         title\n")
-        write_io.write(f"boxsolid_{part_id}\n")
-        write_io.write("$#     pid     secid       mid     eosid      hgid      grav    adpopt      tmid\n")
-        write_line_with_vars_rjust([part_id, section_id, model_id, 0, 0, 0, 0, 0], write_io, 10)
-        write_io.write("*MAT_USER_DEFINED_MATERIAL_MODELS_TITLE\n")
-        write_io.write(f"umat43_{model_id}\n")
-        write_io.write("$#     mid        ro        mt       lmc       nhv    iortho     ibulk        ig\n")
-        write_line_with_vars_rjust([model_id, 0.027, 43, 24, hsv_num, 0, 3, 4], write_io, 10)
-        write_io.write(f"$#   ivect     ifail    itherm    ihyper      ieos      lmca    unused    unused\n")
-        write_line_with_vars_rjust([0, 0, 0, 1, 0, 0], write_io, 10)
-        write_io.write("$#      p1        p2        p3        p4        p5        p6        p7        p8\n")
-        write_line_with_vars_rjust([70000.0, 0.3, 58333.33, 26923.08, 0.001, g0, 0.02, h0], write_io, 10)
-        write_io.write("$#      p1        p2        p3        p4        p5        p6        p7        p8\n")
-        write_line_with_vars_rjust([gs, hs, 1.4, 0.1, 0.0, 0.0, 1.0, 0.0], write_io, 10)
-        write_io.write("$#      p1        p2        p3        p4        p5        p6        p7        p8\n")
-        write_line_with_vars_rjust([round(euler_angles[0],4), round(euler_angles[1],4), round(euler_angles[2],4), 0, 0, 0, 0, 0], write_io, 10)
-
-def write_section_solid(write_io, section_id:int, element_form:int):
-    """
-
-    :param write_io:        txt file io to output
-    :param section_id:      id of section
-    :param element_form:    index of the element form for the section, 1 for constant stress solid element
-    :return:
-    """
-    write_io.write("*SECTION_SOLID\n")
-    write_io.write("$# secid    elform       aet    unused    unused    unused    cohoff   gaskeit\n")
-    write_line_with_vars_rjust([section_id,element_form,0,0,0,0.0,0.0],write_io, 10)
-    if element_form == 1:
-        write_io.write('*CONTROL_HOURGLASS\n')
-        write_io.write('$#     ihq        qh\n')
-        write_io.write('         6       0.1\n')
-
-def write_header(write_io):
-    write_io.write("$# LS-DYNA Keyword file created by Python Script \n")
-    write_io.write(f"$# Author: CHEN Jiawei, MFPL, UTokyo, Time: {datetime.now()}  \n")
+    write_io.write(keyword_header)
+    write_io.write('\n')
+    write_io.write(name)
+    write_io.write('\n')
+    for i in range(len(param_form)):
+        param_list = param_form[i]
+        write_line_with_vars_rjust(param_list, write_io, 10)
 
 def write_lines(write_io, lines):
     for line in lines:

@@ -102,7 +102,7 @@ phi2_list(delete_row_idx,:)=[];
 grainId_list(delete_row_idx,:)=[];
 % Output Point Info
 for i=1:length(grainId_list)
-    fprintf(output_io,'%d,%f,%f,%f,%f,%f,%d\n',id_list(i),x_list(i),y_list(i),phi1_list(i),Phi_list(i),phi2_list(i),grainId_list(i));
+    fprintf(output_io,'%d,%f,%f,%f,%f,%f,%f,%d\n',id_list(i),x_list(i),y_list(i),0.0,phi1_list(i),Phi_list(i),phi2_list(i),grainId_list(i));
 end
 clearvars id_list x_list y_list phi1_list Phi_list phi2_list grainId_list;
 

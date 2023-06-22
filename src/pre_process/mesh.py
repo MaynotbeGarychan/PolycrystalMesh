@@ -35,7 +35,7 @@ class mesh(object):
         :param thicknesss:
         :return:
         """
-        print("INFO: Dragging shell mesh into solid mesh")
+        print("INFO: Dragging shell mesh into solid/tshell mesh")
         # checking input
         shell_mesh = self
         if shell_mesh.elem_set.type != 'ELEMENT_SHELL':
@@ -183,7 +183,11 @@ class mesh(object):
         # return the node coordinates list
         return drag_x_array, drag_y_array, drag_z_array
 
-    # property function
+    # drag shell to tshell
+    def drag_shell_to_tshell(self,thickness: float):
+        tshell_mesh = self.drag_shell_to_solid(1,thickness)
+        tshell_mesh.elem_set.type = "ELEMENT_TSHELL"
+        return tshell_mesh
 
 
 

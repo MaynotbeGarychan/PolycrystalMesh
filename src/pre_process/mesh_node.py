@@ -1,5 +1,6 @@
 import numpy as np
 from src.pre_process.keyword_file import keyword_file, ret_form_lines
+from copy import copy, deepcopy
 
 class node_set(object):
     num = 0
@@ -66,6 +67,23 @@ class node_set(object):
             write_io.write(f'0'.rjust(8))
             write_io.write(f'0'.rjust(8))
             write_io.write('\n')
+
+    def offset_node_set(self,distance: float, coor_str: str):
+        """
+        Offset the node set to a direction with a distance
+        :param distance: the distance for offset
+        :param coor_str: the axis/direction for offset
+        :return: NO
+        """
+        if coor_str == 'x':
+            self.x_array = self.x_array + distance
+        elif coor_str == 'y':
+            self.y_array = self.y_array + distance
+        elif coor_str == 'z':
+            self.z_array = self.z_array + distance
+
+
+
 
 
 

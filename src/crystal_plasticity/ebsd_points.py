@@ -9,6 +9,7 @@ class ebsd_points(object):
     id_array_in_mtex = np.empty(0)
     x_array = np.array(0)
     y_array = np.array(0)
+    z_array = np.array(0)
     phi1_array = np.empty(0)
     Phi_array = np.empty(0)
     phi2_array = np.empty(0)
@@ -24,6 +25,7 @@ class ebsd_points(object):
             self.id_array_in_mtex = np.empty(0)
             self.x_array = np.array(0)
             self.y_array = np.array(0)
+            self.z_array = np.array(0)
             self.phi1_array = np.empty(0)
             self.Phi_array = np.empty(0)
             self.phi2_array = np.empty(0)
@@ -47,6 +49,7 @@ class ebsd_points(object):
         self.id_array_in_mtex = np.empty(self.num_points, dtype=int)
         self.x_array = np.empty(self.num_points, dtype=float)
         self.y_array = np.empty(self.num_points, dtype=float)
+        self.z_array = np.empty(self.num_points, dtype=float)
         self.part_id_array = np.empty(self.num_points, dtype=int)
         self.phi1_array = np.empty(self.num_points, dtype=float)
         self.Phi_array = np.empty(self.num_points, dtype=float)
@@ -57,6 +60,7 @@ class ebsd_points(object):
             self.id_array_in_mtex[i] = info[0]
             self.x_array[i] = info[1]
             self.y_array[i] = info[2]
+            self.z_array[i] = info[3]
             self.phi1_array[i] = info[3]
             self.Phi_array[i] = info[4]
             self.phi2_array[i] = info[5]
@@ -70,18 +74,24 @@ class ebsd_points(object):
             self.x_array = self.x_array * scale_factor
         elif axis_str == 'y':
             self.y_array = self.y_array * scale_factor
+        elif axis_str == 'z':
+            self.z_array = self.z_array * scale_factor
         else:
             self.x_array = self.x_array * scale_factor
             self.y_array = self.y_array * scale_factor
+            self.z_array = self.z_array * scale_factor
 
     def translate_points_coodinates(self, distance, axis_str:str = ''):
         if axis_str == 'x':
             self.x_array = self.x_array + distance
         elif axis_str == 'y':
             self.y_array = self.y_array + distance
+        elif axis_str == 'z':
+            self.z_array = self.z_array + distance
         else:
             self.x_array = self.x_array + distance
             self.y_array = self.y_array + distance
+            self.z_array = self.z_array + distance
 
     def adjust_points_region_into_specimen_size(self, specimen_nodes_set: node_set):
         """
