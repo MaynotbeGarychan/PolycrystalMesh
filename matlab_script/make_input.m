@@ -40,10 +40,10 @@ ipf_key = ipfHSVKey(grains.CS.Laue);
 ipf_key.inversePoleFigureDirection = vector3d.Z;
 fig_1=figure;
 ipf_color =  ipf_key.orientation2color(grains.meanOrientation);
-plot(grains,ipf_color);
+plot(grains,ipf_color,'coordinates','on');
 set(fig_1, 'Units', 'Inches', 'Position', [0, 0, 8, 8]);
 hold on
-camroll(90)
+%camroll(90)
 % set(gca, 'YDir','reverse')
 hold off
 

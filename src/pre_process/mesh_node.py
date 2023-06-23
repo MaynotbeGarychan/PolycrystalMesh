@@ -1,6 +1,7 @@
 import numpy as np
 from src.pre_process.keyword_file import keyword_file, ret_form_lines
 from copy import copy, deepcopy
+from math import radians, sin, cos
 
 class node_set(object):
     num = 0
@@ -81,6 +82,36 @@ class node_set(object):
             self.y_array = self.y_array + distance
         elif coor_str == 'z':
             self.z_array = self.z_array + distance
+
+    def rotate_node_set(self,rot_degrees):
+        """
+        Rotate the points region with some degrees
+        :param rot_degrees: rotation angle, degrees style
+        :return:
+        """
+        rot_radians = radians(rot_degrees)
+
+        const_sin = sin(rot_radians)
+        const_cos = cos(rot_radians)
+
+        center_x = (np.amax(self.x_array) + np.amin(self.x_array)) / 2
+        center_y = (np.amax(self.y_array) + np.amin(self.y_array)) / 2
+
+        for i in range(self.num):
+            x_old = self.x_array[i]
+            y_old = self.y_array[i]
+
+            x_old -= center_x
+            y_old -= center_y
+
+            x_new = const_cos * x_old - const_sin * y_old
+            y_new = const_sin * x_old + const_cos * y_old
+
+            x_new += center_x
+            y_new += center_y
+
+            self.x_array[i] = x_new
+            self.y_array[i] = y_new
 
 
 
