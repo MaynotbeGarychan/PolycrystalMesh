@@ -61,10 +61,10 @@ class ebsd_points(object):
             self.x_array[i] = info[1]
             self.y_array[i] = info[2]
             self.z_array[i] = info[3]
-            self.phi1_array[i] = info[3]
-            self.Phi_array[i] = info[4]
-            self.phi2_array[i] = info[5]
-            self.part_id_array[i] = info[6]
+            self.phi1_array[i] = info[4]
+            self.Phi_array[i] = info[5]
+            self.phi2_array[i] = info[6]
+            self.part_id_array[i] = info[7]
 
     # edit functions for the region of ebsd set
     # including, scale, translate, rotate, crop
