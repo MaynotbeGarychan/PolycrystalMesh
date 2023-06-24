@@ -42,9 +42,6 @@ fig_1=figure;
 ipf_color =  ipf_key.orientation2color(grains.meanOrientation);
 plot(grains,ipf_color);
 set(fig_1, 'Units', 'Inches', 'Position', [0, 0, 8, 8]);
-hold on
-camroll(90)
-% set(gca, 'YDir','reverse')
 hold off
 
 %%
