@@ -97,8 +97,20 @@ class elem_set(object):
             node_id = nodes_list[i]
             temp = self.search_elem_by_node(node_id)
             elem_id_array = np.concatenate((elem_id_array,temp))
-        elem_id_array = np.unique(elem_id_array)
-        return elem_id_array
+        unique_elem_id_array = np.unique(elem_id_array)
+        unique_elem_id_array = unique_elem_id_array[unique_elem_id_array != elem_id]
+
+        thres = 2
+        if self.type == "ELEMENT_SHELL":
+            thres = 1
+        elif self.type == "ELEMENT_SOLID":
+            thres = 2
+        ajacent_elem_id_array = []
+        for i in range(len(unique_elem_id_array)):
+            cur_elem_id = unique_elem_id_array[i]
+            if np.count_nonzero(elem_id_array == cur_elem_id) > thres:
+                ajacent_elem_id_array.append(cur_elem_id)
+        return np.array(ajacent_elem_id_array)
 
     def search_elem_by_node(self,node_id):
         """

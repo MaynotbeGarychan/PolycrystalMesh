@@ -97,6 +97,8 @@ class node_set(object):
         center_x = (np.amax(self.x_array) + np.amin(self.x_array)) / 2
         center_y = (np.amax(self.y_array) + np.amin(self.y_array)) / 2
 
+        new_x_array = np.zeros(self.num,dtype=float)
+        new_y_array = np.zeros(self.num, dtype=float)
         for i in range(self.num):
             x_old = self.x_array[i]
             y_old = self.y_array[i]
@@ -110,8 +112,11 @@ class node_set(object):
             x_new += center_x
             y_new += center_y
 
-            self.x_array[i] = x_new
-            self.y_array[i] = y_new
+            new_x_array[i] = x_new
+            new_y_array[i] = y_new
+
+        self.x_array = new_x_array
+        self.y_array = new_y_array
 
 
 
