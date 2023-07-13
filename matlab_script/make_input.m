@@ -1,6 +1,6 @@
 %% Please specify your directory
 ebsd_data_dir = '/home/chen/Desktop/kishimoto/Al-C.ang';
-output_file_dir = '/home/chen/Desktop/kishimoto/input.txt';
+output_file_dir = '/home/chen/Desktop/kishimoto/input2.txt';
 
 %% Specify Crystal and Specimen Symmetries
 
@@ -24,13 +24,13 @@ ebsd = EBSD.load(ebsd_data_dir,CS,'interface','ang');
 %% Reconstruct the grains
 
 % calculate the grains
-[grains,ebsd.grainId,ebsd.mis2mean] = calcGrains(ebsd('indexed'),'angle',10*degree);
+[grains,ebsd.grainId,ebsd.mis2mean] = calcGrains(ebsd('indexed'),'angle',7*degree);
 
 % remove noise grain
-ebsd(grains(grains.grainSize<20)) = [];
+ebsd(grains(grains.grainSize<16)) = [];
 
 % segment grains again
-[grains,ebsd.grainId,ebsd.mis2mean] = calcGrains(ebsd('indexed'),'angle',10*degree);
+[grains,ebsd.grainId,ebsd.mis2mean] = calcGrains(ebsd('indexed'),'angle',7*degree);
 
 % smooth them
 %grains = smooth(grains,5);
@@ -40,7 +40,7 @@ ipf_key = ipfHSVKey(grains.CS.Laue);
 ipf_key.inversePoleFigureDirection = vector3d.Z;
 fig_1=figure;
 ipf_color =  ipf_key.orientation2color(grains.meanOrientation);
-plot(grains,ipf_color);
+plot(grains,ipf_color,'coordinates','on');
 set(fig_1, 'Units', 'Inches', 'Position', [0, 0, 8, 8]);
 hold off
 

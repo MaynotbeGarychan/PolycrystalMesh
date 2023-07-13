@@ -13,7 +13,7 @@ class visualization(object):
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(1, 1, 1)
 
-    def add_scatter_points(self, x_array, y_array, size = 0.05, color = 'blue'):
+    def add_scatter_points(self, x_array, y_array, size = 0.2, color = 'red'):
         self.ax.scatter(x_array,y_array,s=size,c=color)
 
     def add_legend(self):

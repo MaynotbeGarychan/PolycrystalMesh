@@ -61,4 +61,5 @@ solid_mesh.write_keyword(output_mesh_io)
 output_mesh_io.close()
 
 # Output the euler angle
-write_euler_angles(euler_angle_file_dir,specimen_ebsd.grains_set.orientations_list)
+write_euler_angles(euler_angle_file_dir,specimen_ebsd.grains_set.phi1_list,
+                   specimen_ebsd.grains_set.lphi_list,specimen_ebsd.grains_set.phi2_list)
