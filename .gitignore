@@ -3,6 +3,7 @@
 *.msg
 *.idea
 *.m
+*.k
 run
 private
 __pycache__

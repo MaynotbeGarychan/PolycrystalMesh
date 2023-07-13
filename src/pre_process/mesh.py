@@ -183,11 +183,35 @@ class mesh(object):
         # return the node coordinates list
         return drag_x_array, drag_y_array, drag_z_array
 
-    # drag shell to tshell
-    def drag_shell_to_tshell(self,thickness: float):
-        tshell_mesh = self.drag_shell_to_solid(1,thickness)
-        tshell_mesh.elem_set.type = "ELEMENT_TSHELL"
-        return tshell_mesh
+    def identify_boundary_elem(self,elem_id):
+        """
+        check whether is an element at grain boundary,
+        return the flag, and the part id list
+        :param elem_id: id of a given element
+        :return: flag,
+                part id list (if boundary elem, return all the part id and its own, if not, return its own id)
+        """
+        flag = False
+        adjacent_elem_id_list = self.elem_set.search_ajacent_elem(elem_id-1)
+        adjacent_elem_idx_list = adjacent_elem_id_list -1
+        part_id_list = self.elem_set.part_list[adjacent_elem_idx_list]
+        part_id_list = np.unique(part_id_list)
+
+        if len(part_id_list) > 1:
+            flag = True
+        return flag, part_id_list
+
+    def ret_elem_center_pos(self,elem_id):
+        idx = elem_id - 1
+        node_id_list = self.elem_set.nodes_list[idx]
+        node_idx_list = node_id_list - 1
+        x_array = self.node_set.x_array[node_idx_list]
+        y_array = self.node_set.y_array[node_idx_list]
+        z_array = self.node_set.z_array[node_idx_list]
+        return np.mean(x_array),np.mean(y_array),np.mean(z_array)
+
+
+
 
 
 
