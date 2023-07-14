@@ -1,0 +1,12 @@
+open keyword "$kfile_dir$"
+Message 1
+Message 0
+save outversion 10
+genselect clear
+renumber setkind NODE 0
+renumber setkind SHELL_ELEM 0
+renumber setkind PART 0
+save keywordbyinternal 1
+save keyword "$kfile_dir$"
+genselect clear
+exit

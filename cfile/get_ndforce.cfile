@@ -1,0 +1,6 @@
+open d3plot "$run_dir$\d3plot"
+ac
+ascii nodfor open "$run_dir$\nodfor" 0
+ascii nodfor plot $node_set_id$ all
+xyplot 1 savefile ms_csv "$csv_dir$" $node_set_id$ all
+exit
