@@ -14,7 +14,11 @@ class voro_seeds(object):
         self.l_y = l_y
         self.l_z = l_z
 
-    def generate_seeds(self, grain_diameter_x, grain_diameter_y, grain_diameter_z, diviation=0.2):
+    def generate_seeds(self, grain_diameter_xyz, diviation=0.2):
+        grain_diameter_x = grain_diameter_xyz[0]
+        grain_diameter_y = grain_diameter_xyz[1]
+        grain_diameter_z = grain_diameter_xyz[2]
+
         seed_dx = grain_diameter_x
         seed_dy = grain_diameter_y
         seed_dz = grain_diameter_z

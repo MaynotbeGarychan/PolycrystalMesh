@@ -1,23 +1,51 @@
-import os
+from os import system, path
+from shutil import copyfile
 
 class lspp(object):
     lspp_dir = ''
+    cfile_folder_dir = ''
 
-    def __init__(self,lspp_dir):
+    def __init__(self,lspp_dir,cfile_folder_dir):
         self.lspp_dir = lspp_dir
+        self.cfile_folder_dir = cfile_folder_dir
+
+    def _run(self,cfile_dir):
+        system(f'"{self.lspp_dir}" c={cfile_dir}')
+
+    def _make_cfile(self,src_cfile_dir,dst_cfile_dir,couple_list):
+        src_cfile_io = open(src_cfile_dir, 'r')
+        lines = src_cfile_io.readlines()
+        src_cfile_io.close()
+
+        _replace(lines, couple_list)
+
+        dst_cfile_io = open(dst_cfile_dir, 'w')
+        dst_cfile_io.writelines(lines)
+        dst_cfile_io.close()
 
     def get_ndforce(self,run_dir,csv_dir,node_set_id):
-        cfile_dir = f'{run_dir}/macro.cfile'
-        cfile_io = open(f"{cfile_dir}\n")
+        src_cfile_dir = f'{self.cfile_folder_dir}//get_ndforce.cfile'
+        dst_cfile_dir = f'{run_dir}//get_ndforce.cfile'
+        couple_list = [['$run_dir$',f'{run_dir}'],
+                       ['$node_set_id$',f'{node_set_id}'],
+                       ['$csv_dir$',f'{csv_dir}']]
+        self._make_cfile(src_cfile_dir, dst_cfile_dir, couple_list)
+        self._run(dst_cfile_dir)
 
-        d3plot_dir = f'{run_dir}\d3plot'
-        nodfor_dir = f'{run_dir}\\nodfor'
+    def reorder_all(self,kfile_dir):
+        kfile_folder_dir = path.dirname(kfile_dir)
+        src_cfile_dir = f'{self.cfile_folder_dir}//reorder_all.cfile'
+        dst_cfile_dir = f'{kfile_folder_dir}//reorder_all.cfile'
+        couple_list = [['$kfile_dir$', f'{kfile_dir}']]
+        self._make_cfile(src_cfile_dir,dst_cfile_dir,couple_list)
+        self._run(dst_cfile_dir)
 
-        cfile_io.write(f"open d3plot '{d3plot_dir}'\n")
-        cfile_io.write("ac\n")
-        cfile_io.write(f"ascii nodfor open '{nodfor_dir}' 0\n")
-        cfile_io.write(f"ascii nodfor plot {node_set_id} all\n")
-        cfile_io.write(f"xyplot 1 savefile ms_csv '{csv_dir}' {node_set_id} all\n")
-        cfile_io.close()
 
-        os.system(f"{self.lspp_dir} -nographics c={cfile_dir}")
+def _replace(lines,couple_list):
+    for line in lines:
+        for i in range(len(couple_list)):
+            lines[i] = line.replace(couple_list[i][0],couple_list[i][1])
+
+
+
+

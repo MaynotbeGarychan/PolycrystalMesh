@@ -202,6 +202,11 @@ class mesh(object):
         return flag, part_id_list
 
     def ret_elem_center_pos(self,elem_id):
+        """
+        return the center position of a element
+        :param elem_id:
+        :return:
+        """
         idx = elem_id - 1
         node_id_list = self.elem_set.nodes_list[idx]
         node_idx_list = node_id_list - 1
@@ -209,6 +214,10 @@ class mesh(object):
         y_array = self.node_set.y_array[node_idx_list]
         z_array = self.node_set.z_array[node_idx_list]
         return np.mean(x_array),np.mean(y_array),np.mean(z_array)
+
+    def combine_all_parts_into_one(self):
+        new_part_list = np.full(self.elem_set.num,1,dtype=int)
+        self.elem_set.part_list = new_part_list
 
 
 
