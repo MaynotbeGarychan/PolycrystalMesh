@@ -23,9 +23,10 @@ class mesh(object):
         :param write_io: io to keywore file
         :return:
         """
+        # write_io = open(write_dir,'w')
         self.elem_set.write_keyword(write_io)
         self.node_set.write_keyword(write_io)
-
+        write_io.close()
     # Mesh tools
     def drag_shell_to_solid(self, num_layers: int, thicknesss):
         """

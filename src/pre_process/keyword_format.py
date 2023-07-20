@@ -23,6 +23,7 @@ def write_any_keyword(write_io,keyword_header:str,name:str,param_form:list):
     :param param_form: a form of to store the keyword in sequences
     :return:
     """
+    # write_io = open(write_dir,'w')
     write_io.write(keyword_header)
     write_io.write('\n')
     write_io.write(name)
@@ -30,6 +31,7 @@ def write_any_keyword(write_io,keyword_header:str,name:str,param_form:list):
     for i in range(len(param_form)):
         param_list = param_form[i]
         write_line_with_vars_rjust(param_list, write_io, 10)
+    # write_io.close()
 
 def write_lines(write_io, lines):
     for line in lines:

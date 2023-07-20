@@ -17,10 +17,10 @@ class lspp(object):
         lines = src_cfile_io.readlines()
         src_cfile_io.close()
 
-        _replace(lines, couple_list)
+        new_lines = _replace(lines, couple_list)
 
         dst_cfile_io = open(dst_cfile_dir, 'w')
-        dst_cfile_io.writelines(lines)
+        dst_cfile_io.writelines(new_lines)
         dst_cfile_io.close()
 
     def get_ndforce(self,run_dir,csv_dir,node_set_id):
@@ -42,9 +42,20 @@ class lspp(object):
 
 
 def _replace(lines,couple_list):
-    for line in lines:
-        for i in range(len(couple_list)):
-            lines[i] = line.replace(couple_list[i][0],couple_list[i][1])
+    new_lines = []
+    for i in range(len(lines)):
+        line = lines[i]
+        for j in range(len(couple_list)):
+            target_term = couple_list[j][0]
+            replace_term = couple_list[j][1]
+            line = line.replace(target_term, replace_term)
+        new_lines.append(line)
+    return new_lines
+
+    #
+    # for line in lines:
+    #     for i in range(len(couple_list)):
+    #         lines[i] = line.replace(couple_list[i][0],couple_list[i][1])
 
 
 
