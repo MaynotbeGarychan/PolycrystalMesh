@@ -6,7 +6,6 @@ from src.crystal_plasticity.ebsd import ebsd
 from src.others.plot_tools import visualization
 from src.crystal_plasticity.ebsd_to_mesh_partitioning import ebsd_to_mesh_partitioning
 from src.crystal_plasticity.ebsd_to_mesh_indexing import ebsd_to_mesh_indexing
-from src.pre_process.keyword_format import write_parts_with_materials_models, write_header, write_parts,write_section_solid, write_nodes_set
 import numpy as np
 from src.pre_process.euler_angles import write_euler_angles
 
@@ -70,12 +69,13 @@ solid_mesh = shell_mesh.drag_shell_to_solid(20, 0.025)
 
 # Output the model to LS-Dyna k file, also output the euler angle
 output_mesh_io = keyword_file(output_mesh_dir, 'w').file_io
-write_header(output_mesh_io)
 solid_mesh.write_keyword(output_mesh_io)
 output_mesh_io.close()
 
 # Output the euler angle
-write_euler_angles(euler_angle_file_dir,specimen_ebsd.grains_set.orientations_list)
+write_euler_angles(euler_angle_file_dir,specimen_ebsd.grains_set.orientations_list[0],
+                   specimen_ebsd.grains_set.orientations_list[1],
+                   specimen_ebsd.grains_set.orientations_list[2])
 
 
 

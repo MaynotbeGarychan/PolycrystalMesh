@@ -1,6 +1,8 @@
+clc
+clear
 %% Please specify your directory
-ebsd_data_dir = '/home/chen/Desktop/kishimoto/Al-C.ang';
-output_file_dir = '/home/chen/Desktop/kishimoto/input.txt';
+ebsd_data_dir = '/home/chen/Desktop/PolycrystalMesh/example/retangle_region/ebsd.ang';
+output_file_dir = '/home/chen/Desktop/PolycrystalMesh/example/retangle_region/input.txt';
 
 %% Specify Crystal and Specimen Symmetries
 
@@ -19,7 +21,7 @@ setMTEXpref('FontSize',20);
 
 % import the ebsd data
 
-ebsd = EBSD.load(ebsd_data_dir,CS,'interface','ang');
+ebsd = EBSD.load(ebsd_data_dir,CS,'interface','ang','convertSpatial2EulerReferenceFrame','setting 2');
 
 %% Reconstruct the grains
 
