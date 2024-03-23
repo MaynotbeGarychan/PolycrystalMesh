@@ -1,8 +1,13 @@
 clc
 clear
 %% Please specify your directory
+<<<<<<< HEAD
 ebsd_data_dir = '/home/chen/Desktop/PolycrystalMesh/example/retangle_region/ebsd.ang';
 output_file_dir = '/home/chen/Desktop/PolycrystalMesh/example/retangle_region/input.txt';
+=======
+ebsd_data_dir = '';
+output_file_dir = '';
+>>>>>>> dev
 
 %% Specify Crystal and Specimen Symmetries
 

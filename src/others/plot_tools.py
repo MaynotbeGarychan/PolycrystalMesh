@@ -27,7 +27,7 @@ class visualization(object):
         plt.show()
 
     def save_fig(self, file_dir):
-        self.ax.savefig(file_dir)
+        self.ax.savefig(file_dir, dpi=600)
 
     # special plotting method
     def add_scatter_nodes_for_selected_elements(self, id_array_selected_elems,
