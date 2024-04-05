@@ -82,6 +82,5 @@ if __name__ == "__main__":
     euler_angle_file_dir = f'euler_angles.txt'
 
     make(input_mesh_file_dir,input_ebsd_file_dir,output_mesh_dir,euler_angle_file_dir)
->>>>>>> dev
 
 
