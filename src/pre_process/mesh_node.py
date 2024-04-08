@@ -2,26 +2,31 @@ import numpy as np
 from src.pre_process.keyword_file import keyword_file, ret_form_lines
 from copy import copy, deepcopy
 from math import radians, sin, cos
+from src.others.id_array_tools import ret_id2idx_map_array
 
 class node_set(object):
     num = 0
-    id_array = np.empty(0)
+    id_array = np.empty(0,dtype=int)
     x_array = np.empty(0)
     y_array = np.empty(0)
     z_array = np.empty(0)
+    id2idx_map_array = np.empty(0,dtype=int)
     #coordinates_list = np.array(0)
 
     def __init__(self, input_file_dir: str):
         if input_file_dir.endswith('.k'):
-            # print("INFO: Reading node information from keyword file")
+            print("INFO: Reading node information from keyword file")
             self._input_from_keyword(input_file_dir)
+            print("INFO: Initializing the id2idx mapping array for node")
+            self.id2idx_map_array = ret_id2idx_map_array(self.id_array)
         else:
             self.num = 0
-            self.id_array = np.empty(0)
+            self.id_array = np.empty(0,dtype=int)
             self.x_array = np.empty(0)
             self.y_array = np.empty(0)
             self.z_array = np.empty(0)
-            # print("INFO: Creating empty node set")
+            self.id2idx_map_array = np.empty(0,dtype=int)
+            print("INFO: Creating empty node set")
 
     # input functions
     def _input_from_keyword(self, input_file_dir):

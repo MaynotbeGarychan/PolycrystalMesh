@@ -1,25 +1,30 @@
 from src.pre_process.keyword_file import keyword_file, ret_form_lines
 from src.pre_process.keyword_format import write_line_with_vars_rjust
 import numpy as np
+from src.others.id_array_tools import ret_id2idx_map_array
 
 class elem_set(object):
     type = ''
     num = 0
-    id_array = np.empty(0)
+    id_array = np.empty(0,dtype=int)
     nodes_list = np.empty(0)
     part_list = np.empty(0)
+    id2idx_map_array = np.empty(0,dtype=int)
 
     def __init__(self, input_file_dir: str):
         if input_file_dir.endswith('.k'):
-            # print("INFO: Reading element information from keyword file")
+            print("INFO: Reading element information from keyword file")
             self._input_from_keyword(input_file_dir)
+            print("INFO: Initializing the id2idx mapping array for element")
+            self.id2idx_map_array = ret_id2idx_map_array(self.id_array)
         else:
             self.type = ''
             self.num = 0
-            self.id_array = np.empty(0)
+            self.id_array = np.empty(0,dtype=int)
             self.nodes_list = np.empty(0)
-            self.part_list = np.empty(0)
-            # print("INFO: Creating empty element set")
+            self.part_list = np.empty(0,dtype=int)
+            self.id2idx_map_array = np.empty(0,dtype=int)
+            print("INFO: Creating empty element set")
 
     # Input functions
     def _input_from_keyword(self, input_file_dir):
@@ -90,7 +95,7 @@ class elem_set(object):
         :param elem_id: id of an element
         :return: np.array, the array with the adjacent element id
         """
-        idx = elem_id - 1
+        idx = self.id2idx_map_array[elem_id]
         nodes_list = self.nodes_list[idx]
         elem_id_array = np.empty(0,dtype=int)
         for i in range(len(nodes_list)):
