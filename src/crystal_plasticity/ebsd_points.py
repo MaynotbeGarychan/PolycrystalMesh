@@ -2,11 +2,12 @@ import numpy as np
 from math import radians, sin, cos
 from src.others.text_tools import ret_form_lines
 from src.pre_process.mesh_node import node_set
+from src.others.id_array_tools import ret_id2idx_map_array
 
 class ebsd_points(object):
     num_points = 0
     id_array = np.empty(0)
-    id_array_in_mtex = np.empty(0)
+    id_array_in_mtex = np.empty(0,dtype=int)
     x_array = np.array(0)
     y_array = np.array(0)
     z_array = np.array(0)
@@ -14,14 +15,17 @@ class ebsd_points(object):
     Phi_array = np.empty(0)
     phi2_array = np.empty(0)
     part_id_array = np.empty(0)
+    id2idx_map_array = np.empty(0,dtype=int)
 
     def __init__(self, input_file_dir:str):
         if input_file_dir.endswith(".txt"):
-            # print("INFO: Reading ebsd points information from self defined file")
+            print("INFO: Reading ebsd points information from self defined file")
             self._input_from_self_defined_text(input_file_dir)
+            print("INFO: Initializing the id2idx mapping array for ebsd point")
+            self.id2idx_map_array = ret_id2idx_map_array(self.id_array)
         else:
             self.num_points = 0
-            self.id_array = np.empty(0)
+            self.id_array = np.empty(0, dtype=int)
             self.id_array_in_mtex = np.empty(0)
             self.x_array = np.array(0)
             self.y_array = np.array(0)
@@ -30,6 +34,7 @@ class ebsd_points(object):
             self.Phi_array = np.empty(0)
             self.phi2_array = np.empty(0)
             self.part_id_array = np.empty(0)
+            self.id2idx_map_array = np.empty(0, dtype=int)
             # print("INFO: Creating empty ebsd points set")
 
     # input functions

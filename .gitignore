@@ -3,5 +3,6 @@ lspost.cfile
 *.msg
 *.idea
 *.m
+.vscode
 private
 __pycache__
