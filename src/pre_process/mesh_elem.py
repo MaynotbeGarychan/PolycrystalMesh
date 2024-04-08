@@ -8,7 +8,7 @@ class elem_set(object):
     num = 0
     id_array = np.empty(0,dtype=int)
     nodes_list = np.empty(0)
-    part_list = np.empty(0)
+    part_list = np.empty(0,dtype=int)
     id2idx_map_array = np.empty(0,dtype=int)
 
     def __init__(self, input_file_dir: str):
@@ -125,3 +125,23 @@ class elem_set(object):
         """
         idx = np.where(self.nodes_list == node_id)[0]
         return self.id_array[idx]
+
+    def assign_elems_to_part(self,elems_id_array,parts_id_array):
+        """
+        Assign the parts id to the elements with two arrays
+        :param elems_id_array: np.array([elem_1_id, elem_2_id, elem_3_id, ...])
+        :param parts_id_array: np.array([elem_1_grainid, elem_2_grainid, elem_3_grainid, ...])
+        :return:
+        """
+        elems_idx_array = self.id2idx_map_array[elems_id_array]
+        self.part_list[elems_idx_array] = parts_id_array
+
+    def modify_elems_part_id(self,init_part_id,new_part_id):
+        """
+        Change the part to another part for the elements
+        :param init_part_id: int
+        :param new_part_id: int
+        :return:
+        """
+        indices = np.where(self.part_list == init_part_id)[0]
+        init_part_id[indices] = new_part_id
