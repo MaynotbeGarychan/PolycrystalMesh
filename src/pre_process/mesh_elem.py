@@ -126,15 +126,20 @@ class elem_set(object):
         idx = np.where(self.nodes_list == node_id)[0]
         return self.id_array[idx]
 
-    def assign_elems_to_part(self,elems_id_array,parts_id_array):
+    def assign_elems_to_parts(self,elems_id_array,parts_id_array):
         """
         Assign the parts id to the elements with two arrays
         :param elems_id_array: np.array([elem_1_id, elem_2_id, elem_3_id, ...])
         :param parts_id_array: np.array([elem_1_grainid, elem_2_grainid, elem_3_grainid, ...])
         :return:
         """
-        elems_idx_array = self.id2idx_map_array[elems_id_array]
-        self.part_list[elems_idx_array] = parts_id_array
+        if np.any(elems_id_array <= 0):
+            raise ValueError("def assign_elems_to_part: receive invalid element id.")
+        if len(elems_id_array) == len(parts_id_array) or len(parts_id_array) == 1:
+            elems_idx_array = self.id2idx_map_array[elems_id_array]
+            self.part_list[elems_idx_array] = parts_id_array
+        else:
+            raise TypeError("def assign_elems_to_part: check the input array.")
 
     def modify_elems_part_id(self,init_part_id,new_part_id):
         """
@@ -144,4 +149,6 @@ class elem_set(object):
         :return:
         """
         indices = np.where(self.part_list == init_part_id)[0]
-        init_part_id[indices] = new_part_id
+        if len(indices) == 0:
+            raise ValueError("def modify_elems_part_id: no element is assigned to a part.")
+        self.part_list[indices] = new_part_id

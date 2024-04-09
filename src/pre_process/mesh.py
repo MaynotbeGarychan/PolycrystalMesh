@@ -41,14 +41,13 @@ class mesh(object):
         # checking input
         shell_mesh = self
         if shell_mesh.elem_set.type != 'ELEMENT_SHELL':
-            print("ERROR: obj.mesh - func.drag_shell_to_solid : Incorrect element type")
-            return False
+            raise TypeError("def drag_shell_to_solid: Incorrect element type")
         if type(thicknesss) == float or int:
             thickness_list = [float(thicknesss)] * num_layers
         elif len(thicknesss) == num_layers:
             thickness_list = thicknesss
         else:
-            print("ERROR: obj.mesh - func.drag_shell_to_solid : Incorrect thickness for shell drag")
+            raise TypeError("def drag_shell_to_solid: Incorrect thickness for shell drag")
             return False
         # make empty solid mesh set, and assign basic value to the mesh object
         solid_mesh = mesh('')
@@ -194,8 +193,8 @@ class mesh(object):
                 part id list (if boundary elem, return all the part id and its own, if not, return its own id)
         """
         flag = False
-        adjacent_elem_id_list = self.elem_set.search_ajacent_elem(elem_id-1)
-        adjacent_elem_idx_list = adjacent_elem_id_list -1
+        adjacent_elem_id_list = self.elem_set.search_ajacent_elem(elem_id)
+        adjacent_elem_idx_list = self.elem_set.id2idx_map_array[adjacent_elem_id_list]
         part_id_list = self.elem_set.part_list[adjacent_elem_idx_list]
         part_id_list = np.unique(part_id_list)
 
