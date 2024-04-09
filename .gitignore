@@ -6,3 +6,4 @@ lspost.cfile
 .vscode
 private
 __pycache__
+*.json

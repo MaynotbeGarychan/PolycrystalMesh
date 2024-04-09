@@ -7,9 +7,9 @@ from src.others.id_array_tools import ret_id2idx_map_array
 class node_set(object):
     num = 0
     id_array = np.empty(0,dtype=int)
-    x_array = np.empty(0)
-    y_array = np.empty(0)
-    z_array = np.empty(0)
+    x_array = np.empty(0,dtype=float)
+    y_array = np.empty(0,dtype=float)
+    z_array = np.empty(0,dtype=float)
     id2idx_map_array = np.empty(0,dtype=int)
     #coordinates_list = np.array(0)
 
@@ -22,9 +22,9 @@ class node_set(object):
         else:
             self.num = 0
             self.id_array = np.empty(0,dtype=int)
-            self.x_array = np.empty(0)
-            self.y_array = np.empty(0)
-            self.z_array = np.empty(0)
+            self.x_array = np.empty(0,dtype=float)
+            self.y_array = np.empty(0,dtype=float)
+            self.z_array = np.empty(0,dtype=float)
             self.id2idx_map_array = np.empty(0,dtype=int)
             print("INFO: Creating empty node set")
 
@@ -67,9 +67,12 @@ class node_set(object):
         write_io.write(f'$#   nid               x               y               z      tc      rc\n')
         for i in range(self.num):
             write_io.write(f'{self.id_array[i]}'.rjust(8))
-            write_io.write(f'{self.x_array[i]}'.rjust(16))
-            write_io.write(f'{self.y_array[i]}'.rjust(16))
-            write_io.write(f'{self.z_array[i]}'.rjust(16))
+            write_io.write('{:.8f}'.format(self.x_array[i]).rjust(16))
+            write_io.write('{:.8f}'.format(self.y_array[i]).rjust(16))
+            write_io.write('{:.8f}'.format(self.z_array[i]).rjust(16))
+            # write_io.write(f'{self.x_array[i]}'[:15].rjust(16))
+            # write_io.write(f'{self.y_array[i]}'[:15].rjust(16))
+            # write_io.write(f'{self.z_array[i]}'[:15].rjust(16))
             write_io.write(f'0'.rjust(8))
             write_io.write(f'0'.rjust(8))
             write_io.write('\n')

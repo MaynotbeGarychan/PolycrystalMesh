@@ -35,7 +35,9 @@ MTEX Toolbox
 
 ![Hierachical_model](./web/example_hierarchical_model.jpg)
 
-3. Dogbone for in-situ tensile test (coming soon)
+3. Dogbone (applicable for in-situ tensile test) (./example/dogbone)
+
+![Dogbone](./web/example_dogbone.jpg)
 
 ### Usage
 1. Run the ./matlab_script/make_input.m with MTEX Toolbox to 
