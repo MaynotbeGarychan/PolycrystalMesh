@@ -31,7 +31,11 @@ MTEX Toolbox
 
 ![Retangle region](./web/example_retangle_region.jpg)
 
-2. Dogbone for in-situ tensile test (coming soon)
+2. Hierarchical model (./example/hierarchical_model)
+
+![Hierachical_model](./web/example_hierarchical_model.jpg)
+
+3. Dogbone for in-situ tensile test (coming soon)
 
 ### Usage
 1. Run the ./matlab_script/make_input.m with MTEX Toolbox to 
