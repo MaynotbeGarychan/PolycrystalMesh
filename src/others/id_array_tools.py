@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 def ret_idx_by_id(id ,id_array) -> int:
     """
@@ -30,7 +31,28 @@ def ret_id2idx_map_array(id_array):
     :param id_array:
     :return:
     """
-    map_array = np.zeros(max(id_array)+1,dtype=int)
-    for i in range(len(id_array)):
-        map_array[id_array[i]] = np.where(id_array == id_array[i])[0][0]
+    renumber_flag = True
+    for i in tqdm(range(len(id_array))):
+        if id_array[i] != i+1:
+            renumber_flag = False
+            break
+    if not renumber_flag:
+        map_array = np.zeros(max(id_array)+1,dtype=int)
+        for i in tqdm(range(len(id_array))):
+            map_array[id_array[i]] = np.where(id_array == id_array[i])[0][0]
+    else:
+        map_array = np.arange(len(id_array))
+        map_array = np.insert(map_array, 0, 0)
     return map_array
+
+def sort_array_together_correspond_to_first_array(a,b):
+    """
+    sort the two array together, the array b is following array a
+    :param a: The array to be sorted, and provide the reference
+    :param b: THe array to be sorted based on the array a
+    :return: sorted_a np.array(), sorted_b np.array()
+    """
+    indices = np.argsort(a)
+    sorted_a = a[indices]
+    sorted_b = b[indices]
+    return sorted_a, sorted_b

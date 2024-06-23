@@ -3,6 +3,7 @@ from src.pre_process.keyword_file import keyword_file, ret_form_lines
 from copy import copy, deepcopy
 from math import radians, sin, cos
 from src.others.id_array_tools import ret_id2idx_map_array
+from tqdm import tqdm
 
 class node_set(object):
     num = 0
@@ -47,7 +48,7 @@ class node_set(object):
         self.y_array = np.empty(self.num, dtype=float)
         self.z_array = np.empty(self.num, dtype=float)
         # get the id_array, coordinates_list
-        for i in range(self.num):
+        for i in tqdm(range(self.num)):
             line = lines[i]
             info = line.split()
             self.id_array[i] = info[0]
@@ -70,9 +71,6 @@ class node_set(object):
             write_io.write('{:.8f}'.format(self.x_array[i]).rjust(16))
             write_io.write('{:.8f}'.format(self.y_array[i]).rjust(16))
             write_io.write('{:.8f}'.format(self.z_array[i]).rjust(16))
-            # write_io.write(f'{self.x_array[i]}'[:15].rjust(16))
-            # write_io.write(f'{self.y_array[i]}'[:15].rjust(16))
-            # write_io.write(f'{self.z_array[i]}'[:15].rjust(16))
             write_io.write(f'0'.rjust(8))
             write_io.write(f'0'.rjust(8))
             write_io.write('\n')
@@ -91,6 +89,37 @@ class node_set(object):
         elif coor_str == 'z':
             self.z_array = self.z_array + distance
 
+    def scale_node_set(self, scale_factor, axis_str:str = ''):
+        """
+        Scale the nodes for expand or shrink the mesh
+        :param scale_factor: a float value to define the ratio
+        :param axis_str: the coordinates for scaling
+        :return:
+        """
+        if axis_str == 'x':
+            self.x_array = self.x_array * scale_factor
+        elif axis_str == 'y':
+            self.y_array = self.y_array * scale_factor
+        elif axis_str == 'z':
+            self.z_array = self.z_array * scale_factor
+        else:
+            self.x_array = self.x_array * scale_factor
+            self.y_array = self.y_array * scale_factor
+            self.z_array = self.z_array * scale_factor
+
+    def scale_to_unit_cell(self):
+        """
+        Scale the node set to make the unit cell
+        :return:
+        """
+        ratio_x = 1 / (max(self.x_array) - min(self.x_array))
+        ratio_y = 1 / (max(self.y_array) - min(self.y_array))
+        ratio_z = 1 / (max(self.z_array) - min(self.z_array))
+
+        self.scale_node_set(ratio_x, 'x')
+        self.scale_node_set(ratio_y, 'y')
+        self.scale_node_set(ratio_z, 'z')
+
     def rotate_node_set(self,rot_degrees):
         """
         Rotate the points region with some degrees
@@ -98,33 +127,37 @@ class node_set(object):
         :return:
         """
         rot_radians = radians(rot_degrees)
-
         const_sin = sin(rot_radians)
         const_cos = cos(rot_radians)
-
         center_x = (np.amax(self.x_array) + np.amin(self.x_array)) / 2
         center_y = (np.amax(self.y_array) + np.amin(self.y_array)) / 2
-
         new_x_array = np.zeros(self.num,dtype=float)
         new_y_array = np.zeros(self.num, dtype=float)
         for i in range(self.num):
             x_old = self.x_array[i]
             y_old = self.y_array[i]
-
             x_old -= center_x
             y_old -= center_y
-
             x_new = const_cos * x_old - const_sin * y_old
             y_new = const_sin * x_old + const_cos * y_old
-
             x_new += center_x
             y_new += center_y
-
             new_x_array[i] = x_new
             new_y_array[i] = y_new
-
         self.x_array = new_x_array
         self.y_array = new_y_array
+
+    def offset_node_set_to_position(self,pos):
+        """
+        offset all the nodes to the certain position
+        :param pos: coordinates of the given position [x,y,z]
+        :return:
+        """
+        if len(pos) != 3:
+            raise ValueError("def offset_node_set_to_position required coordinates in 3D.")
+        self.offset_node_set(pos[0] - self.x_array.min(), 'x')
+        self.offset_node_set(pos[1] - self.y_array.min(), 'y')
+        self.offset_node_set(pos[2] - self.z_array.min(), 'z')
 
 
 

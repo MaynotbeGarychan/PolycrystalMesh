@@ -11,6 +11,7 @@ import numpy as np
 from src.pre_process.euler_angles import write_euler_angles
 from src.pre_process.keyword_format import write_any_keyword
 from math import radians
+from src.pre_process.mesh_tool import drag_shell_to_solid
 
 def make(input_mesh_file_dir,input_ebsd_file_dir,output_shell_mesh_dir,output_solid_mesh_dir,euler_angle_file_dir):
     # input shell mesh and ebsd data
@@ -52,7 +53,7 @@ def make(input_mesh_file_dir,input_ebsd_file_dir,output_shell_mesh_dir,output_so
     output_mesh_io.close()
 
     # output the dragged solid
-    solid_mesh = shell_mesh.drag_shell_to_solid(10, 1)
+    solid_mesh = drag_shell_to_solid(shell_mesh,10, 0.02)
     output_mesh_io = keyword_file(output_solid_mesh_dir, 'w').file_io
     solid_mesh.write_keyword(output_mesh_io)
     output_mesh_io.close()

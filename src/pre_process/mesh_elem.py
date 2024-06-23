@@ -2,12 +2,13 @@ from src.pre_process.keyword_file import keyword_file, ret_form_lines
 from src.pre_process.keyword_format import write_line_with_vars_rjust
 import numpy as np
 from src.others.id_array_tools import ret_id2idx_map_array
+from tqdm import tqdm
 
 class elem_set(object):
     type = ''
     num = 0
     id_array = np.empty(0,dtype=int)
-    nodes_list = np.empty(0)
+    nodes_list = np.empty(0,dtype=int)
     part_list = np.empty(0,dtype=int)
     id2idx_map_array = np.empty(0,dtype=int)
 
@@ -21,7 +22,7 @@ class elem_set(object):
             self.type = ''
             self.num = 0
             self.id_array = np.empty(0,dtype=int)
-            self.nodes_list = np.empty(0)
+            self.nodes_list = np.empty(0,dtype=int)
             self.part_list = np.empty(0,dtype=int)
             self.id2idx_map_array = np.empty(0,dtype=int)
             print("INFO: Creating empty element set")
@@ -41,9 +42,15 @@ class elem_set(object):
         if lines[0].startswith("*ELEMENT_SHELL"):
             self.type = "ELEMENT_SHELL"
             self._init_elem_set(lines[1:], self.type)
-        if lines[0].startswith("*ELEMENT_SOLID"):
+        elif lines[0].startswith("*ELEMENT_SOLID (ten nodes format)"):
+            self.type = "ELEMENT_SOLID"
+            processed_lines = self._init_elem_set_preprocess_ten_nodes_format(lines[1:])
+            self._init_elem_set(processed_lines, self.type)
+        elif lines[0].startswith("*ELEMENT_SOLID"):
             self.type = "ELEMENT_SOLID"
             self._init_elem_set(lines[1:], self.type)
+        else:
+            raise TypeError("def _input_from_keyword: Current element type is not supported.")
 
     # Output functions
     def write_keyword(self, write_io):
@@ -83,11 +90,18 @@ class elem_set(object):
             num_node = 8
         self.nodes_list = np.empty((self.num,num_node),dtype=int)
         # get the id_array, nodes_list, etc., from lines
-        for i in range(self.num):
+        for i in tqdm(range(self.num)):
             line = lines[i]
             info = line.split()
             self.id_array[i], self.part_list[i] = info[0], info[1]
             self.nodes_list[i] = info[2:2+num_node]
+
+    def _init_elem_set_preprocess_ten_nodes_format(self, lines):
+        num_elem = int(len(lines)/2)
+        processed_lines = [None]*num_elem
+        for i in range(num_elem):
+            processed_lines[i] = lines[2*i][:-1]+lines[2*i+1]
+        return processed_lines
 
     def search_ajacent_elem(self,elem_id):
         """
@@ -135,9 +149,13 @@ class elem_set(object):
         """
         if np.any(elems_id_array <= 0):
             raise ValueError("def assign_elems_to_part: receive invalid element id.")
-        if len(elems_id_array) == len(parts_id_array) or len(parts_id_array) == 1:
+        if type(parts_id_array) == int:
+            temp_arr = np.array([parts_id_array]*len(elems_id_array),dtype=int)
+        else:
+            temp_arr = parts_id_array
+        if len(elems_id_array) == len(temp_arr):
             elems_idx_array = self.id2idx_map_array[elems_id_array]
-            self.part_list[elems_idx_array] = parts_id_array
+            self.part_list[elems_idx_array] = temp_arr
         else:
             raise TypeError("def assign_elems_to_part: check the input array.")
 

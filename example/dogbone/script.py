@@ -1,7 +1,5 @@
 import os.path
-
 import matplotlib.pyplot as plt
-
 from src.pre_process.mesh import mesh
 from src.post_process.dyna_csv_file import *
 from src.pre_process.keyword_file import keyword_file
@@ -13,6 +11,7 @@ import numpy as np
 from src.pre_process.euler_angles import write_euler_angles
 from src.pre_process.keyword_format import write_any_keyword
 from math import radians
+from src.pre_process.mesh_tool import drag_shell_to_solid
 
 
 def make(input_mesh_file_dir,input_ebsd_file_dir,output_shell_mesh_dir,output_solid_mesh_dir,euler_angle_file_dir):
@@ -55,16 +54,14 @@ def make(input_mesh_file_dir,input_ebsd_file_dir,output_shell_mesh_dir,output_so
 
     # output shell mesh
     output_mesh_io = keyword_file(output_shell_mesh_dir, 'w').file_io
-
     shell_mesh.write_keyword(output_mesh_io)
     output_mesh_io.close()
 
     # Drag the shell mesh to solid mesh
-    solid_mesh = shell_mesh.drag_shell_to_solid(10, 0.02)
+    solid_mesh = drag_shell_to_solid(shell_mesh,10, 0.02)
 
     # Output the model to LS-Dyna k file, also output the euler angle
     output_mesh_io = keyword_file(output_solid_mesh_dir, 'w').file_io
-
     solid_mesh.write_keyword(output_mesh_io)
     output_mesh_io.close()
 

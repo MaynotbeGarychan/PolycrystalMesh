@@ -1,0 +1,8 @@
+open d3plot "$d3plot_dir$"
+ac
+genselect target element
+genselect element add part $part_id$/0
+etime $hsv_id$
+xyplot 1 savefile ms_csv "$save_csv_dir$" 1 all
+switch2pick
+exit

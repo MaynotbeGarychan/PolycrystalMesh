@@ -1,3 +1,5 @@
+import os.path
+
 def ret_form_lines(input_file_dir:str, header_str: str):
     """
     Return a form of lists of lines, which is related to the target headers
@@ -46,3 +48,11 @@ def _remove_comment_in_lines(lines):
     for remove_line in remove_lines:
         lines.remove(remove_line)
     return lines
+
+def get_file_extension(file_path):
+    """
+    Extract the file extension from a given file path
+    :param file_path: str
+    :return: str, e.g., ".k", ".txt"
+    """
+    return os.path.splitext(file_path)[1]
