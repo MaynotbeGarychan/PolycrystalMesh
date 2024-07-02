@@ -12,7 +12,7 @@ complex specimen geometry.
 1. The situation that the sampling points of EBSD analysis is sparser 
 with the respect to mesh density, or some sampling points are cleaned up in some low-quality
 regions, have been well accounted for.
-We developed a iteractive method to consider the surrounding region for a single mesh to look for 
+We developed an iteractive method to consider the surrounding region for a single mesh to look for 
 sampling points, so this program is stable even if the step size of EBSD is large.
 
 2. Basically, it takes 20 minutes or more to partition the mesh 
@@ -27,9 +27,9 @@ the example when conduct the partition.
 MTEX Toolbox
 
 ### Examples
-1. Retangle region (./example/retangle_region)
+1. Rectangle region (./example/rectangle_region)
 
-![Retangle region](./web/example_retangle_region.jpg)
+![Retangle region](./web/example_rectangle_region.jpg)
 
 2. Hierarchical model (./example/hierarchical_model)
 
@@ -47,11 +47,7 @@ partition the grain and making some input information for the next step.
 solid mesh.
 
 ### Citation
-The journal paper introducing and using this program is preparing. 
-If you use this program, you can cite this website as the following.
+Please cite this paper if you used this repo.
+https://doi.org/10.1016/j.ijplas.2024.104052
 
 Jiawei CHEN. (2023). PolycrystalMesh. GitHub. https://github.com/MaynotbeGarychan/PolycrystalMesh
-
-### Contact
-Feel free to contact me via email
-if you have any problems: garychan [at] iis [dot] u-tokyo [dot] ac [dot] jp
